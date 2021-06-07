@@ -1,6 +1,43 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="signup.aspx.cs" Inherits="task_1.signup" %>
+﻿<%@ Page Language="C#" %>
+<%@ Import Namespace="System.Data.SqlClient" %>
 
 <!DOCTYPE html>
+
+<script runat="server">
+
+    protected void btnsignup_Click(object sender, EventArgs e)
+    {
+        SqlConnection conn = new SqlConnection();
+        conn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|datadirectory|data.mdf;Integrated Security = True";
+
+        string strInsert = String.Format("INSERT INTO Student VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')", txtfn.Text, txtln.Text, listgender.SelectedValue, listcounrty.SelectedValue, txtid.Text, txtemail.Text, txtpassword.Text);
+
+
+
+        SqlCommand cmdInsert = new SqlCommand(strInsert, conn);
+        try
+        {
+            conn.Open();
+
+            cmdInsert.ExecuteNonQuery();
+
+            conn.Close();
+
+            msgup2.Text = "Your signed up is successful: " + txtfn.Text;
+        }
+        catch (SqlException err)
+        {
+            if (err.Number == 2627)
+                msgup2.Text = "The ID " + txtid.Text + " already used, Please choose another !!";
+            else
+                msgup2.Text = "Database error, Please try later !!";
+        }
+         catch
+        {
+            msgup2.Text = "The system is not available at the moment, you may try later !!";
+        }
+    }
+</script>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -9,119 +46,47 @@
         .auto-style1 {
             width: 100%;
         }
-        .auto-style6 {
-            height: 45px;
-        }
-        .auto-style10 {
-            width: 234px;
-            height: 53px;
-        }
-        .auto-style11 {
-            width: 358px;
-            height: 53px;
-        }
-        .auto-style12 {
-            height: 53px;
-        }
-        .auto-style13 {
-            width: 234px;
-            height: 58px;
-        }
-        .auto-style14 {
-            width: 358px;
-            height: 58px;
-        }
-        .auto-style15 {
-            height: 58px;
-        }
-        .auto-style16 {
-            width: 234px;
-            height: 55px;
-        }
-        .auto-style17 {
-            width: 358px;
-            height: 55px;
-        }
-        .auto-style18 {
-            height: 55px;
-        }
-        .auto-style19 {
-            width: 234px;
-            height: 54px;
-        }
-        .auto-style20 {
-            width: 358px;
-            height: 54px;
-        }
-        .auto-style21 {
-            height: 54px;
-        }
-        .auto-style22 {
-            width: 234px;
-            height: 57px;
-        }
-        .auto-style23 {
-            width: 358px;
-            height: 57px;
-        }
-        .auto-style24 {
-            height: 57px;
-        }
-        .auto-style25 {
-            width: 234px;
-            height: 52px;
-        }
-        .auto-style26 {
-            width: 358px;
-            height: 52px;
-        }
-        .auto-style27 {
-            height: 52px;
-        }
-        .auto-style28 {
-            width: 234px;
-            height: 50px;
-        }
-        .auto-style29 {
-            width: 358px;
-            height: 50px;
-        }
-        .auto-style30 {
-            height: 50px;
-        }
         .auto-style31 {
             height: 56px;
         }
-        .auto-style32 {
-            height: 40px;
+        .auto-style40 {
+            width: 234px;
+            height: 6px;
         }
-        .auto-style33 {
-            height: 50px;
+        .auto-style41 {
+            width: 358px;
+            height: 6px;
+        }
+        .auto-style42 {
+            height: 6px;
             width: 431px;
         }
-        .auto-style34 {
-            height: 52px;
+        .auto-style43 {
+            height: 6px;
+        }
+        .auto-style44 {
+            width: 234px;
+        }
+        .auto-style45 {
+            width: 358px;
+        }
+        .auto-style46 {
             width: 431px;
         }
-        .auto-style35 {
-            height: 57px;
-            width: 431px;
+        .auto-style47 {
+            width: 234px;
+            height: 2px;
         }
-        .auto-style36 {
-            height: 54px;
-            width: 431px;
+        .auto-style48 {
+            width: 358px;
+            height: 2px;
         }
-        .auto-style37 {
-            height: 55px;
+        .auto-style49 {
             width: 431px;
+            height: 2px;
         }
-        .auto-style38 {
-            height: 58px;
-            width: 431px;
-        }
-        .auto-style39 {
-            height: 53px;
-            width: 431px;
+        .auto-style50 {
+            height: 2px;
         }
     </style>
 </head>
@@ -135,48 +100,55 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="auto-style28">
-                        <asp:Label ID="fn" runat="server" ForeColor="#000066" Text="First name"></asp:Label>
+                    <td class="auto-style40">
+                        <asp:Label ID="lblfn" runat="server" ForeColor="#000066" Text="First name"></asp:Label>
                     </td>
-                    <td class="auto-style29">
-                        <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+                    <td class="auto-style41">
+                        <asp:TextBox ID="txtfn" runat="server"></asp:TextBox>
                     </td>
-                    <td class="auto-style33">
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"></asp:RequiredFieldValidator>
+                    <td class="auto-style42">
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtfn" ErrorMessage="This is required falid" ForeColor="#CC0000"></asp:RequiredFieldValidator>
                     </td>
-                    <td class="auto-style30">
-                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="RegularExpressionValidator"></asp:RegularExpressionValidator>
+                    <td class="auto-style43">
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtfn" ErrorMessage="Invalid First Name Format" ForeColor="#CC0000" ValidationExpression="([A-Z][a-z]*\s[A-Z][a-z]*)|([A-Z][a-z]*)"></asp:RegularExpressionValidator>
                     </td>
                 </tr>
                 <tr>
-                    <td class="auto-style28">
-                        <asp:Label ID="ln" runat="server" ForeColor="#000066" Text="last name"></asp:Label>
+                    <td class="auto-style44">
+                        <asp:Label ID="lblln" runat="server" ForeColor="#000066" Text="last name"></asp:Label>
                     </td>
-                    <td class="auto-style29">
-                        <asp:TextBox ID="TextBox3" runat="server"></asp:TextBox>
+                    <td class="auto-style45">
+                        <asp:TextBox ID="txtln" runat="server"></asp:TextBox>
                     </td>
-                    <td class="auto-style33"></td>
-                    <td class="auto-style30">&nbsp;</td>
+                    <td class="auto-style46">
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtln" ErrorMessage="This is required falid" ForeColor="#CC0000"></asp:RequiredFieldValidator>
+                    </td>
+                    <td>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txtln" ErrorMessage="Invalid Last Name Format" ForeColor="#CC0000" ValidationExpression="([A-Z][a-z]*\s[A-Z][a-z]*)|([A-Z][a-z]*)"></asp:RegularExpressionValidator>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="auto-style25">
-                        <asp:Label ID="gender" runat="server" ForeColor="#000066" Text="Gender"></asp:Label>
+                    <td class="auto-style44">
+                        <asp:Label ID="lblgender" runat="server" ForeColor="#000066" Text="Gender"></asp:Label>
                     </td>
-                    <td class="auto-style26">
-                        <asp:RadioButtonList ID="RadioButtonList2" runat="server" ForeColor="#000066" RepeatDirection="Horizontal">
+                    <td class="auto-style45">
+                        <asp:RadioButtonList ID="listgender" runat="server" ForeColor="#000066" RepeatDirection="Horizontal">
                             <asp:ListItem Value="M">Male</asp:ListItem>
                             <asp:ListItem Value="F">Female</asp:ListItem>
                         </asp:RadioButtonList>
                     </td>
-                    <td class="auto-style34"></td>
-                    <td class="auto-style27">&nbsp;</td>
+                    <td class="auto-style46">
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="listgender" ErrorMessage="This is required falid" ForeColor="#CC0000"></asp:RequiredFieldValidator>
+                    </td>
+                    <td>
+                        </td>
                 </tr>
                 <tr>
-                    <td class="auto-style22">
-                        <asp:Label ID="country" runat="server" ForeColor="#000066" Text="Country"></asp:Label>
+                    <td class="auto-style44">
+                        <asp:Label ID="lblcountry" runat="server" ForeColor="#000066" Text="Country"></asp:Label>
                     </td>
-                    <td class="auto-style23">
-                        <asp:DropDownList ID="DropDownList1" runat="server" ForeColor="#000066">
+                    <td class="auto-style45">
+                        <asp:DropDownList ID="listcounrty" runat="server" ForeColor="#000066">
                             <asp:ListItem>egypt</asp:ListItem>
                             <asp:ListItem>france</asp:ListItem>
                             <asp:ListItem>china</asp:ListItem>
@@ -190,56 +162,73 @@
                             <asp:ListItem>south africa</asp:ListItem>
                         </asp:DropDownList>
                     </td>
-                    <td class="auto-style35"></td>
-                    <td class="auto-style24">&nbsp;</td>
+                    <td class="auto-style46">
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="listcounrty" ErrorMessage="This is required falid" ForeColor="#CC0000"></asp:RequiredFieldValidator>
+                    </td>
+                    <td>
+                        </td>
                 </tr>
                 <tr>
-                    <td class="auto-style19">
-                        <asp:Label ID="ID" runat="server" ForeColor="#000066" Text="ID"></asp:Label>
+                    <td class="auto-style44">
+                        <asp:Label ID="lblID" runat="server" ForeColor="#000066" Text="ID"></asp:Label>
                     </td>
-                    <td class="auto-style20">
-                        <asp:TextBox ID="TextBox6" runat="server"></asp:TextBox>
+                    <td class="auto-style45">
+                        <asp:TextBox ID="txtid" runat="server"></asp:TextBox>
                     </td>
-                    <td class="auto-style36"></td>
-                    <td class="auto-style21">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td class="auto-style16">
-                        <asp:Label ID="email" runat="server" ForeColor="#000066" Text="email"></asp:Label>
+                    <td class="auto-style46">
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="txtid" ErrorMessage="This is required falid" ForeColor="#CC0000"></asp:RequiredFieldValidator>
                     </td>
-                    <td class="auto-style17">
-                        <asp:TextBox ID="TextBox7" runat="server"></asp:TextBox>
-                    </td>
-                    <td class="auto-style37"></td>
-                    <td class="auto-style18">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td class="auto-style13">
-                        <asp:Label ID="password" runat="server" ForeColor="#000066" Text="Password"></asp:Label>
-                    </td>
-                    <td class="auto-style14">
-                        <asp:TextBox ID="TextBox8" runat="server"></asp:TextBox>
-                    </td>
-                    <td class="auto-style38"></td>
-                    <td class="auto-style15">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td class="auto-style10">
-                        <asp:Label ID="password_retry" runat="server" ForeColor="#000066" Text="Password retry"></asp:Label>
-                    </td>
-                    <td class="auto-style11">
-                        <asp:TextBox ID="TextBox9" runat="server"></asp:TextBox>
-                    </td>
-                    <td class="auto-style39"></td>
-                    <td class="auto-style12">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td class="auto-style6" colspan="4">
-                        <asp:Button ID="Button1" runat="server" Text="Button" />
+                    <td>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" ControlToValidate="txtid" ErrorMessage="Invalid Student Id Format" ForeColor="#CC0000" ValidationExpression="[2][0]\d{6}"></asp:RegularExpressionValidator>
                     </td>
                 </tr>
                 <tr>
-                    <td class="auto-style32" colspan="4">
+                    <td class="auto-style44">
+                        <asp:Label ID="lblemail" runat="server" ForeColor="#000066" Text="email"></asp:Label>
+                    </td>
+                    <td class="auto-style45">
+                        <asp:TextBox ID="txtemail" runat="server" ></asp:TextBox>
+                    </td>
+                    <td class="auto-style46">
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ControlToValidate="txtemail" ErrorMessage="This is required falid" ForeColor="#CC0000"></asp:RequiredFieldValidator>
+                    </td>
+                    <td>
+                        </td>
+                </tr>
+                <tr>
+                    <td class="auto-style44">
+                        <asp:Label ID="lblpassword" runat="server" ForeColor="#000066" Text="Password"></asp:Label>
+                    </td>
+                    <td class="auto-style45">
+                        <asp:TextBox ID="txtpassword" runat="server" TextMode="Password"></asp:TextBox>
+                    </td>
+                    <td class="auto-style46">
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator7" runat="server" ControlToValidate="txtpassword" ErrorMessage="This is required falid" ForeColor="#CC0000"></asp:RequiredFieldValidator>
+                    </td>
+                    <td>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ControlToValidate="txtpassword" ErrorMessage="Invalid First Password Format" ForeColor="#CC0000" ValidationExpression="\w{6,14}"></asp:RegularExpressionValidator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="auto-style47">
+                        <asp:Label ID="lblconfirm_password" runat="server" ForeColor="#000066" Text="confirm Password "></asp:Label>
+                    </td>
+                    <td class="auto-style48">
+                        <asp:TextBox ID="txtconfirmpassword" runat="server" style="height: 25px" TextMode="Password"></asp:TextBox>
+                    </td>
+                    <td class="auto-style49">
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" ControlToValidate="txtconfirmpassword" ErrorMessage="This is required falid" ForeColor="#CC0000"></asp:RequiredFieldValidator>
+                    </td>
+                    <td class="auto-style50">
+                        </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <asp:Button ID="btnsignup" runat="server" Text="Sign Up" OnClick="btnsignup_Click" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
                         <asp:Label ID="msgup2" runat="server" Font-Bold="True" Font-Size="Medium"></asp:Label>
                     </td>
                 </tr>
