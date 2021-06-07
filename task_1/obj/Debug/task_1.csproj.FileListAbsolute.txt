@@ -1,0 +1,7 @@
+C:\Users\HP\source\repos\task_1\bin\task_1.dll.config
+C:\Users\HP\source\repos\task_1\bin\task_1.dll
+C:\Users\HP\source\repos\task_1\bin\task_1.pdb
+C:\Users\HP\source\repos\task_1\obj\Debug\task_1.csprojAssemblyReference.cache
+C:\Users\HP\source\repos\task_1\obj\Debug\task_1.csproj.CoreCompileInputs.cache
+C:\Users\HP\source\repos\task_1\obj\Debug\task_1.dll
+C:\Users\HP\source\repos\task_1\obj\Debug\task_1.pdb
